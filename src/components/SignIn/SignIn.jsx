@@ -52,9 +52,15 @@ class SignIn extends Component {
             label='password'
             required
             />
+            
+          <div className="buttons">
+            <CustomBtn type="submit">Sign in</CustomBtn>
+            <CustomBtn 
+              onClick={signInWithGoogle}
+              isGoogleSignIn
+            >Sign in with Google</CustomBtn>
 
-          <CustomBtn type="submit">Sign in</CustomBtn>
-          <CustomBtn onClick={signInWithGoogle}>Sign in with Google</CustomBtn>
+          </div>
         </form>
       </div>
     );

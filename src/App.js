@@ -29,10 +29,9 @@ class App extends React.Component {
   
   
   render(){
-    console.log(this.state.currentUser)
     return (
       <div>
-        <Header/>
+        <Header currentUser={this.state.currentUser}/>
         <Switch>
           
           <Route path="/signin" component={SignInRegister}/>
