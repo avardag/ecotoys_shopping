@@ -13,6 +13,43 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_measurementId
 };
 
+//func to store user from google signin in firebase db 'users' collection
+export const createUserProfileDocument = async (userAuth, additionalData)=>{
+  if(!userAuth) return; //if no user created(or didnt sign in) return
+
+  // const userRef = firestore.doc("users/jkaalflhf")//fake
+  //DocumentReference - obj that represents the 'current' place in the db that we r querying
+  //it not have the actual data of the col or doc. it has properties that tell us details aboit it
+  //or the method to get the Snapshot obj which give us the data we r looking for
+  //use DocumentRef to perfom our CRUD operations
+  //docRef methods: .set(), .get(), .update(), .delete()
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
+
+  //we can also add docs to collections using collectionRef object using .add() // colRef.add({value: prop})
+  
+  //we get snapshotObj from the reference obj using .get() //docRef.get() or colRef.get()
+  //DocumentSnapshot
+  //use 
+  const snapShot = await userRef.get();
+
+  //create user doc w/ info of userAuth
+  if(!snapShot.exists){ //if no such user in 'users' collection
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData // add if there is add.data
+      })
+    } catch (error) {
+      console.log('error creating user', error.message)    
+    }
+  }
+  //return userRef , in case needed in project
+  return userRef;
+}
 
 firebase.initializeApp(firebaseConfig);
 

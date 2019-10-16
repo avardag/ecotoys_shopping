@@ -6,7 +6,7 @@ import ShopPage from './pages/Shop/ShopPage';
 import Header from './components/Header/Header';
 import SignInRegister from './pages/SignInRegister/SignInRegister';
 
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 class App extends React.Component {
   state = {
@@ -16,10 +16,11 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user=>{ //auth observer of Firebase auth
-      this.setState({
-        currentUser: user
-      })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user)=>{ //auth observer of Firebase auth
+      createUserProfileDocument(user)
+      // this.setState({
+      //   currentUser: user
+      // })
     })
   }
   //close auth subscription when compnt unmounts
