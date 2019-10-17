@@ -17,7 +17,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth)=>{ //auth observer of Firebase auth
-        console.log('userAuth', userAuth);
       if (userAuth) { //if its not null
         const userRef = await createUserProfileDocument(userAuth);
 

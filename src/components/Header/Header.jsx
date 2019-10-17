@@ -6,6 +6,8 @@ import { auth } from '../../firebase/firebase.utils';
 
 import './Header.styles.scss';
 import {ReactComponent as Logo} from '../../assets/puzzle(1).svg';
+import CartIcon from '../CartIcon/CartIcon';
+import CartDropdown from '../CartDropdown/CartDropdown';
 
 const Header = ({ currentUser }) => {
   return (
@@ -22,8 +24,9 @@ const Header = ({ currentUser }) => {
           <div className='option' onClick={()=> auth.signOut()}>SIGN OUT</div>
           : <Link className="option" to="/signin">SIGN IN</Link>
         }
+        <CartIcon/>
       </div>
-
+      <CartDropdown/>
     </div>
   );
 };
