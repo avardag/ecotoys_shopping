@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route, Link } from "react-router-dom";
+import {connect} from "react-redux";
+
 import './App.css';
 import Homepage from './pages/Homepage/Homepage';
 import ShopPage from './pages/Shop/ShopPage';
@@ -7,12 +9,10 @@ import Header from './components/Header/Header';
 import SignInRegister from './pages/SignInRegister/SignInRegister';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/userActions';
 
 class App extends React.Component {
-  state = {
-    currentUser: null
-  }
-
+ 
   unsubscribeFromAuth = null;
 
   componentDidMount() {
@@ -21,16 +21,14 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot =>{ // .onSnapshot attaches listener to snapshot changes
-          this.setState({
-            currentUser: {
+          this.props.setCurrentUser({
               id: snapShot.id, // prop of DocumentSnapshot that provides doc id, i.e users id
               ...snapShot.data() // returns obj with all fields of document
-            }
           })
         })
 
       } else {
-        this.setState({currentUser: userAuth}) // i.e currentUser == null
+        this.props.setCurrentUser({userAuth}) // i.e currentUser == null
       }
     })
   }
@@ -43,7 +41,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header/>
         <Switch>
           
           <Route path="/signin" component={SignInRegister}/>
@@ -55,5 +53,11 @@ class App extends React.Component {
     );
   }
 }
+//mapDispatchToProps as a function
+const mapDispatchToProps = (dispatch)=>{
+  return { setCurrentUser: (user)=> dispatch(setCurrentUser(user)) }
+}
+export default connect(null, mapDispatchToProps)(App);
 
-export default App;
+// //instead use MapDispatchToProps as an object
+// export default connect(null, {setCurrentUser})(App);
