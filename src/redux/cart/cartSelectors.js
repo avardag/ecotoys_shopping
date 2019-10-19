@@ -11,6 +11,11 @@ export const selectCartItems = createSelector(
   (cart)=> cart.cartItems //args are input selectors
 );
 
+export const selectCartHiddenDropD = createSelector(
+  [selectCart],
+  (cart)=> cart.hiddenDropD
+)
+
 //output selector
 //returns momoized piece of state for expensice reduce method of array
 export const selectCartItemsCount = createSelector(
@@ -19,3 +24,4 @@ export const selectCartItemsCount = createSelector(
     return cartItems.reduce((acc, currItem)=> acc + currItem.quantity, 0)
   }
 )
+
