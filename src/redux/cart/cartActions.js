@@ -12,3 +12,8 @@ export const toggleCartHidden = ()=>{
     payload: item
   }
 }
+
+export const clearItemFromCart = (item)=>({
+  type: cartActionTypes.CLEAR_ITEM_FROM_CART,
+  payload: item
+})
