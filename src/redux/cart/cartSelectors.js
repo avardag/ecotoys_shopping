@@ -25,3 +25,11 @@ export const selectCartItemsCount = createSelector(
   }
 )
 
+//selector to sum all quanitties of cart items
+export const selectCartTotal = createSelector(
+  [selectCartItems],
+  (cartItems)=>{
+    return cartItems.reduce((acc, currItem)=> acc + (currItem.quantity * currItem.price), 0)
+
+  }
+)
