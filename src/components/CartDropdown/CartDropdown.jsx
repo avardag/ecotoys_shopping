@@ -4,12 +4,15 @@ import { withRouter } from 'react-router-dom';
 
 import CustomBtn from '../CustomBtn/CustomBtn';
 import CartItem from '../CartItem/CartItem';
+
+import { toggleCartHidden } from '../../redux/cart/cartActions';
+
 //Redux selector
 import { selectCartItems } from '../../redux/cart/cartSelectors';
 
 import './CartDropDown.styles.scss'
 
-const CartDropdown = ({cartItems, history}) => {
+const CartDropdown = ({cartItems, history, dispatch}) => {
   return (
     <div className="CartDropdown">
       <div className="cart-items">
@@ -22,7 +25,10 @@ const CartDropdown = ({cartItems, history}) => {
         }
       </div>
       <CustomBtn
-        onClick={()=>history.push("/checkout")}
+        onClick={()=>{
+          history.push("/checkout")
+          dispatch(toggleCartHidden())
+        }}
       >Go to Checkout </CustomBtn>
     </div>
   );
