@@ -12,7 +12,13 @@ export const toggleCartHidden = ()=>{
     payload: item
   }
 }
+//remove one piece of item from cart (i.e decrease quantity)
+export const removeItem = (item)=>({
+  type: cartActionTypes.REMOVE_ITEM,
+  payload: item
+})
 
+//remove whole item from cart
 export const clearItemFromCart = (item)=>({
   type: cartActionTypes.CLEAR_ITEM_FROM_CART,
   payload: item
