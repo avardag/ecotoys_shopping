@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 import userReducer from './user/userReducer';
 import cartReducer from './cart/cartReducer';
+import directoryMenuReducer from './directoryMenu/directoryMenuReducer';
+import shopPageReducer from './shopPage/shopPageReducer';
 
 //configs from redux-persist
 const persistConfig = {
@@ -19,6 +21,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     cart: cartReducer,
+    directoryMenu: directoryMenuReducer,
+    shopPage: shopPageReducer
   })
 
 export default persistReducer(persistConfig, rootReducer)

@@ -33,7 +33,7 @@ export const removeItemFromCartUtil = (cartItems, cartItemToRemove)=>{
 
   return cartItems.map(cartItem=>(
     cartItem.id === cartItemToRemove.id ? //is it cart item to be removed?
-    {... cartItem, quantity: cartItem.quantity -1} //return that cart item with quantity decremented
+    {...cartItem, quantity: cartItem.quantity -1} //return that cart item with quantity decremented
     : cartItem // otherwise return whole cart item object
 
   ))
