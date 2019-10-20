@@ -1,4 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import {persistStore} from 'redux-persist';
+
 import rootReducer from './rootReducer';
 
 const middleware = []; //redux-logger, thunk etc.
@@ -18,4 +20,7 @@ const enhancer = composeEnhancers(
 // const store = createStore(rootReducer, applyMiddleware(...middleware));
 const store = createStore(rootReducer, enhancer);
 
-export default store;
+//persist store to localStorage
+const persistor = persistStore(store);
+
+export {store, persistor};
