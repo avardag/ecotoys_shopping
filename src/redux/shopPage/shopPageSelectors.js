@@ -7,6 +7,11 @@ export const selectShopPageCollections = createSelector(
   [selectShopPage],
   (shopPage) => shopPage.collections
 )
+//selector to turn collections obj to array
+export const selectCollectionsForPreview = createSelector(
+  [selectShopPageCollections],
+  (collections)=> Object.keys(collections).map(key=> collections[key])
+)
 
 //currying function
 //gets collection from state.shopPage.collections based on url param
