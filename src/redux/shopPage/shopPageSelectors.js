@@ -20,3 +20,9 @@ export const selectCollection = (collectionUrlParam) => createSelector(
   [selectShopPageCollections],
   (collections) => collections? collections[collectionUrlParam] : null
 )
+
+//select isFetching prop ov state.shopPage.isFetching
+export const selectIsCollectionsFetching = createSelector(
+  [selectShopPage],
+  shopPage=> shopPage.isFetching
+)
