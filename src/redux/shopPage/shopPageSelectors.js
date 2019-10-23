@@ -10,7 +10,7 @@ export const selectShopPageCollections = createSelector(
 //selector to turn collections obj to array
 export const selectCollectionsForPreview = createSelector(
   [selectShopPageCollections],
-  (collections)=> Object.keys(collections).map(key=> collections[key])
+  (collections)=> collections ? Object.keys(collections).map(key=> collections[key]) : []
 )
 
 //currying function
@@ -18,5 +18,5 @@ export const selectCollectionsForPreview = createSelector(
 //to be used in mapStateToProps with argument of ownProps.match.params.collectionId
 export const selectCollection = (collectionUrlParam) => createSelector(
   [selectShopPageCollections],
-  (collections) => collections[collectionUrlParam]
+  (collections) => collections? collections[collectionUrlParam] : null
 )
