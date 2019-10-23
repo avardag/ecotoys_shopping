@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, createSelectorCreator } from 'reselect';
 
 
 const selectShopPage = state => state.shopPage;
@@ -25,4 +25,11 @@ export const selectCollection = (collectionUrlParam) => createSelector(
 export const selectIsCollectionsFetching = createSelector(
   [selectShopPage],
   shopPage=> shopPage.isFetching
+)
+
+//selector checks if collections are loaded
+export const selectIsCollectionsLoaded =createSelector(
+  [selectShopPage],
+  //state.shopPage.collections init val is null. !! returns boolean of it
+  shopPage => !!shopPage.collections //returns true or false
 )

@@ -9,7 +9,7 @@ import withSpinner from '../../components/hocs/withSpinner/withSpinner';
 //redux actions
 import { fetchCollectionsStartAsync } from '../../redux/shopPage/shopActions';
 //redux selectors
-import { selectIsCollectionsFetching } from '../../redux/shopPage/shopPageSelectors';
+import { selectIsCollectionsFetching, selectIsCollectionsLoaded } from '../../redux/shopPage/shopPageSelectors';
 
 //components wrapped in Spinner
 const CollectionPageWithSpinner = withSpinner(CollectionPage)
@@ -24,7 +24,7 @@ class ShopPage extends React.Component {
   }
   
   render(){
-    const { match, isFetching } = this.props
+    const { match, isFetching, isCollectionsLoaded } = this.props
     return (
       <div className="shop-page">
         <Route exact 
@@ -33,7 +33,7 @@ class ShopPage extends React.Component {
           />
         <Route 
           path={`${match.path}/:collectionId`} 
-          render={props=> <CollectionPageWithSpinner isLoading={isFetching} {...props}/>}
+          render={props=> <CollectionPageWithSpinner isLoading={!isCollectionsLoaded} {...props}/>}
         />
 
       </div>
@@ -41,7 +41,8 @@ class ShopPage extends React.Component {
     }
 }
 const mapStateToProps = (state)=>({
-  isFetching: selectIsCollectionsFetching(state)
+  isFetching: selectIsCollectionsFetching(state),
+  isCollectionsLoaded: selectIsCollectionsLoaded(state)
 
 })
 export default connect(mapStateToProps, {fetchCollectionsStartAsync})(ShopPage);
