@@ -3,7 +3,7 @@ import {persistStore} from 'redux-persist';
 //saga MW
 import createSagaMiddleware from 'redux-saga';
 //sagas
-import { fetchCollectionsStart } from './shopPage/shopPageSagas';
+import rootSaga from './rootSaga';
 //rootReducer
 import rootReducer from './rootReducer';
 
@@ -28,7 +28,7 @@ const store = createStore(rootReducer, enhancer);
 
 //Dynamically run saga. Can be used to run Sagas only after the applyMiddleware phase.
 //The method returns a Task descriptor.
-sagaMiddleware.run(fetchCollectionsStart)
+sagaMiddleware.run(rootSaga)
 
 //persist store to localStorage
 const persistor = persistStore(store);

@@ -1,4 +1,4 @@
-import { takeEvery, call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import shopActionTypes from './shopTypes';
 //firebase imports
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
@@ -26,5 +26,5 @@ export function* fetchCollectionsStart(){
   //takeEvery spawns a saga on each action dispatched to the Store that matches pattern.
   //takeEvery allows concurrent actions to be handled. i.e non-blocking. regular take() is blocking
   //takeLatest() resolves latest saga , and cancels any previous saga tasks
-  yield takeEvery(shopActionTypes.FETCH_COLLECTIONS_START, fetchCollectionsAsync)
+  yield takeLatest(shopActionTypes.FETCH_COLLECTIONS_START, fetchCollectionsAsync)
 }
