@@ -6,9 +6,7 @@ import CollectionsOverviewContainer from '../../components/CollectionsOverview/C
 import CollectionPageContainer from '../Collection/CollectionPageContainer';
 
 //redux actions
-import { fetchCollectionsStartAsync } from '../../redux/shopPage/shopActions';
-//redux selectors
-import { selectIsCollectionsFetching, selectIsCollectionsLoaded } from '../../redux/shopPage/shopPageSelectors';
+import { fetchCollectionsStart } from '../../redux/shopPage/shopActions';
 
 
 class ShopPage extends React.Component {
@@ -16,7 +14,7 @@ class ShopPage extends React.Component {
 
   componentDidMount() {
     
-    this.props.fetchCollectionsStartAsync()
+    this.props.fetchCollectionsStart()
   }
   
   render(){
@@ -37,4 +35,4 @@ class ShopPage extends React.Component {
     }
 }
 
-export default connect(null, {fetchCollectionsStartAsync})(ShopPage);
+export default connect(null, {fetchCollectionsStart})(ShopPage);

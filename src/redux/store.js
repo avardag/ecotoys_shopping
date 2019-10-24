@@ -1,10 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import {persistStore} from 'redux-persist';
-import thunk from 'redux-thunk'
-
+//saga MW
+import createSagaMiddleware from 'redux-saga';
+//sagas
+import { fetchCollectionsStart } from './shopPage/shopPageSagas';
+//rootReducer
 import rootReducer from './rootReducer';
 
-const middleware = [thunk]; //redux-logger, thunk etc.
+//Creates a Redux middleware and connects the Sagas to the Redux Store
+const sagaMiddleware = createSagaMiddleware();
+const middleware = [sagaMiddleware]; //redux-logger, thunk etc.
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -20,6 +25,10 @@ const enhancer = composeEnhancers(
 
 // const store = createStore(rootReducer, applyMiddleware(...middleware));
 const store = createStore(rootReducer, enhancer);
+
+//Dynamically run saga. Can be used to run Sagas only after the applyMiddleware phase.
+//The method returns a Task descriptor.
+sagaMiddleware.run(fetchCollectionsStart)
 
 //persist store to localStorage
 const persistor = persistStore(store);

@@ -1,4 +1,4 @@
-import { createSelector, createSelectorCreator } from 'reselect';
+import { createSelector } from 'reselect';
 
 
 const selectShopPage = state => state.shopPage;
