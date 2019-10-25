@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import FormInput from '../FormInput/FormInput';
 import CustomBtn from '../CustomBtn/CustomBtn';
 
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+
 //redux actions
-import { googleSigninStart } from '../../redux/user/userActions';
+import { googleSigninStart, emailSigninStart } from '../../redux/user/userActions';
 import './SignIn.styles.scss'
 
 class SignIn extends Component {
@@ -27,17 +27,10 @@ class SignIn extends Component {
     e.preventDefault();
 
     const {email, password} = this.state;
-
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      //clear fields
-      this.setState({
-        email: '',
-        password: '',
-      })
-    } catch (error) {
-      console.log(error)
-    }
+    const {emailSigninStart} = this.props;
+    //dispatch action(handled by sagas)
+    emailSigninStart({email, password})
+    
 
   }
   render() {
@@ -82,4 +75,4 @@ class SignIn extends Component {
   }
 }
 
-export default connect(null, {googleSigninStart})(SignIn);
+export default connect(null, {googleSigninStart, emailSigninStart})(SignIn);
