@@ -12,6 +12,8 @@ import {
 import { 
     SigninSuccess, 
     SigninFailure,
+    signOutSuccess,
+    signOutFailure,
   } from './userActions';
 
   //reusable generator function
@@ -77,13 +79,28 @@ export function* onCheckUserSession(){
   yield takeLatest(userActionTypes.CHECK_USER_SESSION, isUserAuhenticated)
 }
 
+//user sign out sagas
+export function* signOut(){
+  try {
+    yield auth.signOut();
+    yield put(signOutSuccess())
+  } catch (error) {
+    yield put(signOutFailure(error))
+  }
+}
+
+export function* onSignOutStart(){
+  yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
+}
+
 //all user sagas
 export function* userSagas(){
   yield all(
     [
       call(onGoogleSigninStart), 
       call(onEmailSigninStart),
-      call(onCheckUserSession)
+      call(onCheckUserSession),
+      call(onSignOutStart),
     ]
   )
 }
