@@ -12,9 +12,14 @@ import Checkout from './pages/Checkout/Checkout';
 
 //selectors
 import { selectCurrentuser } from './redux/user/userSelectors';
+// redux actions
+import { checkUserSession } from './redux/user/userActions';
 
 class App extends React.Component {
- 
+
+  componentDidMount() {
+    this.props.checkUserSession();
+  }
   
   render(){
     return (
@@ -40,4 +45,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentuser
 })
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, {checkUserSession})(App);

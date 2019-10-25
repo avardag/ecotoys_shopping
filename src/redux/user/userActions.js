@@ -17,3 +17,8 @@ export const emailSigninStart = (emailAndPasswordObj)=>({
   type: userActionTypes.EMAIL_SIGNIN_START,
   payload: emailAndPasswordObj
 })
+
+//persist user auth
+export const checkUserSession = ()=>({
+  type: userActionTypes.CHECK_USER_SESSION
+})

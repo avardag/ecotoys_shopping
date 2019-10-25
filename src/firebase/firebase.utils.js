@@ -82,6 +82,15 @@ export const convertCollectionsSnapshotToMap = (collectionsSnapshot)=>{
   }, {})
 }
 
+//func to mimick promise based auth check in firebase
+export const getCurrentUser = ()=>{
+  return new Promise((resolve, reject)=>{
+    const unsubscribe = auth.onAuthStateChanged(userAuth=>{
+      unsubscribe(); //unsubscribe from auth after we get the user value. Value is null or user obj
+      resolve(userAuth);
+    }, reject) // 2nd prop of onAuthStateChanged is error
+  })
+}
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
