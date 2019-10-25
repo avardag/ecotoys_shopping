@@ -10,37 +10,12 @@ import Header from './components/Header/Header';
 import SignInRegister from './pages/SignInRegister/SignInRegister';
 import Checkout from './pages/Checkout/Checkout';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/userActions';
 //selectors
 import { selectCurrentuser } from './redux/user/userSelectors';
 
 class App extends React.Component {
  
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth)=>{ //auth observer of Firebase auth
-      if (userAuth) { //if its not null
-        const userRef = await createUserProfileDocument(userAuth);
-
-        userRef.onSnapshot(snapShot =>{ // .onSnapshot attaches listener to snapshot changes
-          this.props.setCurrentUser({
-              id: snapShot.id, // prop of DocumentSnapshot that provides doc id, i.e users id
-              ...snapShot.data() // returns obj with all fields of document
-          })
-        })
-
-      } else {
-        this.props.setCurrentUser(userAuth) // i.e currentUser == null
-      }
-    })
-  }
-  //close auth subscription when compnt unmounts
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-  
   
   render(){
     return (

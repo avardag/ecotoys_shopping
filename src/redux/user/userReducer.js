@@ -1,14 +1,23 @@
-import { SET_CURRENT_USER } from './userTypes';
+import userActionTypes from './userTypes';
 const INITIAL_STATE = {
-  currentUser: null
+  currentUser: null,
+  error: null
 }
 
 const userReducer = (state=INITIAL_STATE, action)=>{
   switch (action.type) {
-    case SET_CURRENT_USER:
+    case userActionTypes.GOOGLE_SIGNIN_SUCCESS:
+    case userActionTypes.EMAIL_SIGNIN_SUCCESS:
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
+        error: null
+      }
+    case userActionTypes.GOOGLE_SIGNIN_FAILURE:
+    case userActionTypes.EMAIL_SIGNIN_FAILURE:
+      return {
+        ...state,
+        error: action.payload
       }
   
     default:

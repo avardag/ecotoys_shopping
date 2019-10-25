@@ -4,10 +4,14 @@ import { all, call } from "redux-saga/effects";
 // It's quite the corresponding API to standard Promise#all.
 
 import { fetchCollectionsStart } from './shopPage/shopPageSagas';
+import { userSagas } from "./user/userSagas";
 
 //rootSaga to be used in store.js as arg to a function sagaMiddleware.run()
 export default function* rootSaga(){
   yield all(
-    [call(fetchCollectionsStart)]
+    [
+      call(fetchCollectionsStart),
+      call(userSagas)
+    ]
   )
 }
