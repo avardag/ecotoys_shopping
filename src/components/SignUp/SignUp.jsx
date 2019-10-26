@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import FormInput from '../FormInput/FormInput';
 import CustomBtn from '../CustomBtn/CustomBtn';
 import { connect } from 'react-redux';
@@ -7,30 +7,31 @@ import { signUpStart } from '../../redux/user/userActions';
 
 import './SignUp.styles.scss';
 
-class SignUp extends Component {
-  state = {
+const SignUp =({signUpStart})=> {
+  const [userCredentials, setCredentials] = useState({
     displayName: '',
     email: '',
     password : '',
     confirmPassword: '',
-  }
+  })
   
-  handleChange = (e)=>{
+  const handleChange = (e)=>{
     const {value, name} = e.target;
-    this.setState({[name]: value})
+    setCredentials({...userCredentials, [name]: value})
   }
 
-  handleSubmit = async (event) =>{
+  const { displayName, email, password, confirmPassword } = userCredentials;
+  
+  const handleSubmit = async (event) =>{
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword } = this.state;
 
     if(password !== confirmPassword){
       //TODO better err UI
       alert("passwords don't match");
       return
     }
-    this.props.signUpStart({
+    signUpStart({
       displayName,
       email,
       password
@@ -39,19 +40,18 @@ class SignUp extends Component {
 
   }
 
-  render() {
-    const { displayName, email, password, confirmPassword } = this.state;
+  
     return (
       <div className="SignUp">
         <h2 className="title">I do not have account</h2>
         <span>Sign up with email and password</span>
 
-        <form className="sign-up-form" onSubmit={this.handleSubmit}>
+        <form className="sign-up-form" onSubmit={handleSubmit}>
           <FormInput
             type='text'
             name='displayName'
             value={displayName}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label="Display Name"
             required
           />
@@ -60,7 +60,7 @@ class SignUp extends Component {
             type='email'
             name='email'
             value={email}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label="Email"
             required
           />
@@ -69,7 +69,7 @@ class SignUp extends Component {
             type='password'
             name='password'
             value={password}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label="Password"
             required
           />
@@ -78,7 +78,7 @@ class SignUp extends Component {
             type='password'
             name='confirmPassword'
             value={confirmPassword}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label="Confirm Password"
             required
           />
@@ -88,7 +88,7 @@ class SignUp extends Component {
         </form>
       </div>
     );
-  }
+  
 }
 
 export default connect(null, {signUpStart})(SignUp);

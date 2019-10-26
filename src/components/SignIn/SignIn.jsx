@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import FormInput from '../FormInput/FormInput';
@@ -9,53 +9,48 @@ import CustomBtn from '../CustomBtn/CustomBtn';
 import { googleSigninStart, emailSigninStart } from '../../redux/user/userActions';
 import './SignIn.styles.scss'
 
-class SignIn extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    }
-  }
+const SignIn =({emailSigninStart, googleSigninStart})=> {
+  
+  const [userCredentials, setCredentials] = useState({email: '', password: ''})
+  
 
-  handleChange = (e) =>{
+  const {email, password} = userCredentials;
+  
+  const handleChange = (e) =>{
     const {value, name} = e.target;
-    this.setState({[name] : value})
+
+    setCredentials({...userCredentials, [name] : value})
   }
 
-  handleSubmit = async (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
 
-    const {email, password} = this.state;
-    const {emailSigninStart} = this.props;
     //dispatch action(handled by sagas)
     emailSigninStart({email, password})
     
 
   }
-  render() {
-    const {email, password} = this.state;
-    const {googleSigninStart} = this.props;
+  
     return (
       <div className="SignIn">
         <h2>I already have an account</h2>
         <span>Sign in with you email and password</span>
 
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <FormInput 
             type="email" 
             name="email" 
-            value={email} 
-            onChange={this.handleChange}
+            value={email}
+            onChange={handleChange}
             label="email"
             required
             />
           
           <FormInput 
-            type="password" 
-            name="password" 
-            value={password} 
-            onChange={this.handleChange}
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
             label='password'
             required
             />
@@ -72,7 +67,7 @@ class SignIn extends Component {
         </form>
       </div>
     );
-  }
+  
 }
 
 export default connect(null, {googleSigninStart, emailSigninStart})(SignIn);
