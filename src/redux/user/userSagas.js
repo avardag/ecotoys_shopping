@@ -14,6 +14,9 @@ import {
     SigninFailure,
     signOutSuccess,
     signOutFailure,
+    signUpSuccess,
+    signUpFailure,
+    
   } from './userActions';
 
   //reusable generator function
@@ -78,7 +81,7 @@ export function* isUserAuhenticated(){
 export function* onCheckUserSession(){
   yield takeLatest(userActionTypes.CHECK_USER_SESSION, isUserAuhenticated)
 }
-
+//////////////////////////////////////
 //user sign out sagas
 export function* signOut(){
   try {
@@ -93,6 +96,32 @@ export function* onSignOutStart(){
   yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
 }
 
+//////////////////////////
+//user sign up sagas
+export function* signUp({payload: { email, password, displayName}}){
+  try {
+    //use firebases auth , method to create user with email and password
+    const {user} = yield auth.createUserWithEmailAndPassword(email, password);
+
+    //save newly created user to users collection n our db
+    const userRef = yield call(createUserProfileDocument, {...user, displayName})
+    const userSnapshot = yield userRef.get()
+
+    yield put(signUpSuccess({
+      id: userSnapshot.id,
+      ...userSnapshot.data()
+    }))
+
+  } catch (error) {
+    yield put(signUpFailure(error))
+  }
+}
+
+export function* onSignUpStart(){
+  yield takeLatest(userActionTypes.SIGN_UP_START, signUp)
+}
+
+////////////////////////////
 //all user sagas
 export function* userSagas(){
   yield all(
@@ -101,6 +130,7 @@ export function* userSagas(){
       call(onEmailSigninStart),
       call(onCheckUserSession),
       call(onSignOutStart),
+      call(onSignUpStart),
     ]
   )
 }
